@@ -6,7 +6,8 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
+import {apiClient} from "@/lib/api-client"
+import { SIGNUP_ROUTE } from "@/utils/constants";
 const Auth = () => {
 
 
@@ -19,13 +20,26 @@ const Auth = () => {
             toast.error("Email is required.");
             return false;
         }
+        if(!email.includes('@')){
+            toast.error("Invalid email address");
+            return false;
+        }
+        if(!password.length){
+            toast.error("Password is required");
+            return false;
+        }
+        if(password!=confirmPassword){
+            toast.error("Passwords do not match");
+            return false;
+        }
         return true;
     }
 
     const handleLogin = async() => {};
     const handleSignup = async() => {
         if(validateSignup()){
-            alert("done");
+            const response = await apiClient.post(SIGNUP_ROUTE,{email,password});
+            console.log({response});
         }
     };
 
