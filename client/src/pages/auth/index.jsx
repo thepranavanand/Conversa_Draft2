@@ -5,6 +5,7 @@ import {TabsContent, TabsTrigger} from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Auth = () => {
 
@@ -13,8 +14,20 @@ const Auth = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
+    const validateSignup = () => {
+        if(!email.length) {
+            toast.error("Email is required.");
+            return false;
+        }
+        return true;
+    }
+
     const handleLogin = async() => {};
-    const handleSignup = async() => {};
+    const handleSignup = async() => {
+        if(validateSignup()){
+            alert("done");
+        }
+    };
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">
