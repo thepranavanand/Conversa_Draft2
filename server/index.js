@@ -28,12 +28,11 @@ const server = app.listen(port,()=>{
 });
 
 mongoose
-    .connect("mongodb://127.0.0.1:27017/conversa", {  // Direct connection string instead of env variable
+    .connect("mongodb://127.0.0.1:27017/conversa", {  
         useNewUrlParser: true,
         useUnifiedTopology: true,
         serverSelectionTimeoutMS: 5000,
-        family: 4,  // Force IPv4
-        directConnection: true  // Add this
+        directConnection: true,
     })
     .then(() => {
         console.log("DB Connection Successful");
