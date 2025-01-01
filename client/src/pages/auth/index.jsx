@@ -49,24 +49,36 @@ const Auth = () => {
     }
 
     const handleLogin = async() => {
-        if(validateLogin()){
-            const response = await apiClient.post(LOGIN_ROUTE,{email, password}, {withCredentials: true});
-            console.log({response});
-            if(response.data.user.id){
-                if(response.data.user.profileSetup) navigate("/chat");
-                else navigate("/profile");
+        try {
+            if(validateLogin()){
+                const response = await apiClient.post(LOGIN_ROUTE,{email, password}, {withCredentials: true});
+                console.log({response});
+                if(response.data.user.id){
+                    if(response.data.user.profileSetup) navigate("/chat");
+                    else navigate("/profile");
+                }
             }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error(error.response?.data || "Login failed");
         }
     };
+    
     const handleSignup = async() => {
-        if(validateSignup()){
-            const response = await apiClient.post(SIGNUP_ROUTE,{email,password}, {withCredentials: true});
-            if(response.status===201){
-                navigate("/profile");
+        try {
+            if(validateSignup()){
+                const response = await apiClient.post(SIGNUP_ROUTE,{email,password}, {withCredentials: true});
+                if(response.status===201){
+                    toast.success("Signup successful!");
+                    navigate("/profile");
+                }
             }
-            console.log({response});
+        } catch (error) {
+            console.error("Signup error:", error);
+            toast.error(error.response?.data || "Signup failed");
         }
     };
+
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">
